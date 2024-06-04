@@ -138,12 +138,28 @@ export function useStreamState(): StreamStateProps {
   };
 }
 
+function filterMsgs(msg: Message[] | Record<string, any> | null | undefined) {
+  // type为tool时。content为字符串，取tool的值，若为对象，取后一个ai的值
+  let isDelete = false;
+  return (Array.isArray(msg) ? msg : msg?.messages).reduce((pre, next) => {
+    if (['ai', 'human'].includes(next.type) && !isDelete && next.content) {
+      pre.push(next)
+    } else if (next.type === 'tool' && typeof(next.content) === 'string') {
+      pre.push(next);
+      isDelete = true;
+    } else if (isDelete) {
+      isDelete = false;
+    }
+    return pre;
+  }, [])
+}
+
 export function mergeMessagesById(
   left: Message[] | Record<string, any> | null | undefined,
   right: Message[] | Record<string, any> | null | undefined,
 ): Message[] {
-  const leftMsgs = (Array.isArray(left) ? left : left?.messages).filter((m: any) => ['ai', 'human'].includes(m.type));
-  const rightMsgs = (Array.isArray(right) ? right : right?.messages).filter((m: any) => ['ai', 'human'].includes(m.type));
+  const leftMsgs = filterMsgs(left);
+  const rightMsgs =filterMsgs(right);
 
   const merged = (leftMsgs ?? [])?.slice();
   for (const msg of rightMsgs ?? []) {

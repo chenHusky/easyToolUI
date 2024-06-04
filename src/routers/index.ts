@@ -3,6 +3,10 @@ import { useLangStore } from '@/stores';
 
 export const routes: RouteRecordRaw[] = [
   {
+    path: '/',
+    redirect: '/chat',
+  },
+  {
     path: '/chat',
     name: 'chat',
     component: () => import('@/views/TheGpt.vue'),

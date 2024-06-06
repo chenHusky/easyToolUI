@@ -12,7 +12,6 @@ const { enter } = useMagicKeys();
 const { guardAuthClient } = useStoreData();
 
 const visible = ref(false);
-const userId = ref('');
 const assistantId = ref('');
 const threadId = ref('');
 const searchValue = ref('');
@@ -24,9 +23,8 @@ const initIds = () => {
     gitee_name: findGitee ? findGitee.username : '',
   };
   getAssistant(param).then(res => {
-    userId.value = res.name;
     assistantId.value = res.assistant_id;
-    document.cookie = `opengpts_user_id=${userId.value};`;
+    document.cookie = `opengpts_user_id=${guardAuthClient.value.username};`;
   })
 }
 

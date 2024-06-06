@@ -1,21 +1,20 @@
 <script lang="ts" setup>
-import { getAssistant, createThreads, getAllThreads, deleteThreads, modifyThreads, getThreadState } from '@/api/api-gpt';
-import { useStreamState, mergeMessagesById, Message } from '@/hooks/useStreamState';
+import { getAssistant, createThreads, getAllThreads, deleteThreads } from '@/api/api-gpt';
 import { useStoreData } from '@/shared/login';
 import { ref, watch } from 'vue';
 import LoginModal from './components/LoginModal.vue';
 import HistoryList from './components/HistoryList.vue';
-import IconSend from '~icons/app/icon-search.svg'
-import { useMagicKeys } from '@vueuse/core'
+import ThreadComponent from './components/ThreadComponent.vue';
+import { useIdsStore } from '@/stores/id';
 
-const { enter } = useMagicKeys();
 const { guardAuthClient } = useStoreData();
 
 const visible = ref(false);
+const threadCom = ref();
 const assistantId = ref('');
-const threadId = ref('');
-const searchValue = ref('');
+const { threadId } = useIdsStore();
 
+// 获取assistantId
 const initIds = () => {
   const findGitee = guardAuthClient.value.identities?.find((item: any) => item.provider === 'gitee');
   const param = {
@@ -34,25 +33,26 @@ const newThread = (name: string) => {
     name,
   }
   createThreads(param).then(res => {
-    threadId.value = res.thread_id;
+    selectThread(res.thread_id);
     initThreads();
   });
 }
+
+// 获取所有对话
 const threads = ref<any>([]);
 const initThreads = () => {
   getAllThreads().then((res) => {
     threads.value = res;
+    // 存在对话选择展示第一条
+    if (threads.value.length) {
+      selectThread(threads.value[0].thread_id);
+    }
   })
 }
-const allState = ref<Message[]>([])
-const getState = (id: string) => {
-  getThreadState(id).then(res => {
-    allState.value = mergeMessagesById(res.values, []);
-  })
-}
+// 选中一条对话
 const selectThread = (id: string) => {
   threadId.value = id;
-  getState(id);
+  threadCom.value.init();
 }
 const deleteThread = (id: string) => {
   deleteThreads(id).then(() => {
@@ -60,30 +60,6 @@ const deleteThread = (id: string) => {
   })
 }
 
-
-const { startStream, stream } = useStreamState();
-const sendReq = () => {
-  const id = `human-${Math.random()}`
-  const input = [{
-    content: searchValue.value,
-    additional_kwargs: {},
-    type: 'human',
-    example: false,
-    id,
-  }];
-  startStream(input, threadId.value);
-  searchValue.value = '';
-}
-watch(
-  () => stream.value,
-  (stream) => {
-    if (stream?.status === 'done') {
-      getState(threadId.value);
-    } else if (stream?.status === 'inflight') {
-      allState.value = mergeMessagesById(allState.value, stream.messages)
-    }
-  }
-)
 watch(
   () => guardAuthClient.value.username,
   () => {
@@ -100,11 +76,6 @@ watch(
     immediate: true,
   }
 )
-watch(enter, (v) => {
-  if (v && searchValue.value) {
-    sendReq()
-  }
-})
 </script>
 <template>
   <div class="gpt">
@@ -113,22 +84,7 @@ watch(enter, (v) => {
       <OButton class="btn" size="small" @click="newThread('新对话')" type="primary">新建对话</OButton>
       <HistoryList @clickItem="selectThread" @deleteItem="deleteThread" :threads="threads"></HistoryList>
     </div>
-    <div class="right">
-      <div class="chat">
-        <template v-for="(item, index) in allState">
-          <div>{{ item.content }}</div>
-        </template>
-      </div>
-      <div class="send">
-        <OInput v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Enter发送">
-          <template #suffix>
-            <div class="send-icon">
-              <OIcon @click="sendReq"><IconSend/></OIcon>
-            </div>
-          </template>
-        </OInput>
-      </div>
-    </div>
+    <ThreadComponent ref="threadCom"></ThreadComponent>
   </div>
   <LoginModal v-model="visible"></LoginModal>
 </template>
@@ -162,32 +118,4 @@ watch(enter, (v) => {
     margin-bottom: 16px;
   }
 }
-
-.right {
-  width: 70%;
-
-  .chat {
-    height: calc(100vh - 184px);
-  }
-
-  .send {
-    display: flex;
-    width: 100%;
-    column-gap: 24px;
-    .o-input {
-      --o-input-border-color: none;
-      height: 72px;
-    }
-    .send-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 4px;
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      background-color: #7d32ea;
-    }
-  }
-}</style>
+</style>

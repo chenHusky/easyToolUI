@@ -69,10 +69,9 @@ export function goToHome() {
 
 export function showGuard() {
   const origin = import.meta.env.VITE_LOGIN_ORIGIN;
-  const { lang } = getLanguage();
   location.href = `${origin}/login?redirect_uri=${encodeURIComponent(
     location.href
-  )}&lang=${lang}`;
+  )}&lang=zh`;
 }
 
 // token失效跳转首页
@@ -142,17 +141,4 @@ export function refreshInfo(community = 'openeuler') {
   } else {
     removeSessionInfo();
   }
-}
-
-export function getLanguage() {
-  if (location.pathname.includes('/zh/')) {
-    return {
-      lang: 'zh',
-      language: 'zh-CN',
-    };
-  }
-  return {
-    lang: 'en',
-    language: 'en-US',
-  };
 }

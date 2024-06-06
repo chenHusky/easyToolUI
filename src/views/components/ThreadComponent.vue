@@ -10,6 +10,7 @@ import ChatItemContent from './ChatItemContent.vue';
 const { threadId } = useIdsStore();
 const { enter } = useMagicKeys();
 const searchValue = ref('');
+const disableInput = ref(false);
 const ChatRef = ref();
 const { startStream, stream } = useStreamState();
 
@@ -17,7 +18,12 @@ const allState = ref<Message[]>([])
 const getState = (id: string) => {
   getThreadState(id).then(res => {
     const arr = mergeMessagesById(res.values, []);
-    allState.value = arr;
+    if (arr.length !== allState.value.length) {
+      allState.value = arr;
+    }
+    if (res.next.length) {
+      disableInput.value = true;
+    }
     keepScrollBottom();
   })
 }
@@ -38,6 +44,7 @@ watch(
   () => stream.value,
   (stream) => {
     if (stream?.status === 'done') {
+      disableInput.value = false;
       getState(threadId.value);
     } else if (stream?.status === 'inflight') {
       allState.value = mergeMessagesById(allState.value, stream.messages)
@@ -47,6 +54,8 @@ watch(
 )
 
 const sendReq = () => {
+  if (disableInput.value) return;
+  disableInput.value = true;
   const id = `human-${Math.random()}`
   const input = [{
     content: searchValue.value,
@@ -79,9 +88,9 @@ defineExpose({
     </div>
     <div class="operate"></div>
     <div class="send">
-      <OInput v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Enter发送">
+      <OInput :disabled="disableInput" v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Enter发送">
         <template #suffix>
-          <div class="send-icon">
+          <div class="send-icon" :class="disableInput && 'disableIcon'">
             <OIcon @click="sendReq"><IconSend/></OIcon>
           </div>
         </template>
@@ -110,6 +119,7 @@ defineExpose({
     column-gap: 24px;
     .o-input {
       --o-input-border-color: none;
+      --o-input-disabled-border-color: rgba(125, 50, 234, 0.4);
       height: 72px;
     }
     .send-icon {
@@ -122,6 +132,9 @@ defineExpose({
       justify-content: center;
       color: #fff;
       background-color: #7d32ea;
+    }
+    .disableIcon {
+      background-color: rgba(125, 50, 234, 0.4);
     }
   }
 }

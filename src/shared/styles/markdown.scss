@@ -1,0 +1,111 @@
+@use 'github-markdown-css/github-markdown-light.css' as *;
+@use 'highlight.js/styles/github.css' as *;
+
+.markdown-body {
+  color: var(--o-color-info2);
+
+  details {
+    display: block !important;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--o-color-info1);
+  }
+
+  a {
+    color: var(--o-color-link1);
+
+    &:hover {
+      color: var(--o-color-link2);
+    }
+  }
+
+  h1,
+  h2 {
+    border-bottom: 1px solid var(--o-color-control4);
+  }
+
+  hr {
+    background-color: var(--o-color-control4);
+  }
+
+  pre {
+    position: relative;
+    border-radius: var(--o-radius-s);
+    background-color: var(--o-color-fill3);
+    padding: 0;
+    overflow: hidden;
+
+    code {
+      display: block;
+      overflow-x: auto;
+      padding: 16px;
+    }
+  }
+
+  table {
+    --table-padding: 12px 24px;
+    --table-radius: var(--o-radius-m);
+
+    border-radius: var(--table-radius);
+    border: 1px solid var(--o-color-control4);
+
+    tr {
+      border: none;
+    }
+
+    tr + tr {
+      border-top: 1px solid var(--o-color-control4);
+    }
+
+    th {
+      background-color: var(--o-color-control3-light);
+      padding: var(--table-padding);
+      text-align: left;
+      border: none;
+    }
+
+    td {
+      box-sizing: border-box;
+      padding: var(--table-padding);
+      border: none;
+    }
+  }
+
+  .pre-copy {
+    cursor: pointer;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    height: 24px;
+    background-color: var(--o-color-fill3);
+
+    .icon-copy {
+      display: block;
+      width: 24px;
+      height: 24px;
+      -webkit-mask-image: url(~icons/app/icon-copy-text.svg);
+      mask-image: url(~icons/app/icon-copy-text.svg);
+      -webkit-mask-size: cover;
+      background-color: var(--o-color-primary1);
+      --gradient: linear-gradient(to right, hsla(0, 0%, 100%, 0), var(--o-color-fill3));
+    }
+
+    .icon-copy {
+      background-color: var(--o-color-primary1);
+    }
+  }
+}

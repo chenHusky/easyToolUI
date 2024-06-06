@@ -8,6 +8,8 @@ import IconStomp from '~icons/app/icon-stomp.svg';
 import IconUnstomp from '~icons/app/icon-unstomp.svg';
 import IconCopy from '~icons/app/icon-copy.svg';
 import { ElMessage } from 'element-plus';
+import { useMarkdown } from '@/hooks/useMarkdown';
+useMarkdown()
 
 const props = defineProps({
   chatItem: {
@@ -53,7 +55,7 @@ function clipTxt(text: string) {
     <!-- <img :src="Logo" class="photo" /> -->
     <div class="photo" style="background-color: rgba(125, 50, 234, .5);"></div>
     <div class="ai-content">
-      {{ chatItem.content }}
+      <div class="markdown-body" v-dompurify-html="useMarkdown().mkit(chatItem.content)"></div>
       <div class="icon-group" v-if="chatItem?.response_metadata?.finish_reason === 'stop' || chatItem.type === 'tool'">
         <OIcon class="icon" @click="clipTxt(chatItem.content)">
           <component :is="IconCopy"></component>

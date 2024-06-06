@@ -15,10 +15,14 @@ specifiers:
   element-plus: ^2.2.17
   eslint: ^8.49.0
   eslint-plugin-vue: ^9.17.0
+  github-markdown-css: ^5.5.1
+  highlight.js: ^11.9.0
   husky: ^8.0.1
   js-base64: ^3.7.2
   lint-staged: ^13.0.3
   lodash-es: ^4.17.21
+  markdown-it: ^14.1.0
+  markdown-it-anchor: ^9.0.1
   opendesign: ./opendesign
   pinia: ^2.0.22
   prettier: ^3.0.3
@@ -31,6 +35,7 @@ specifiers:
   unplugin-vue-components: ^0.26.0
   vite: ^4.4.11
   vue: ~3.3.4
+  vue-dompurify-html: ^5.0.1
   vue-i18n: ^9.8.0
   vue-router: ^4.2.5
   vue-tsc: ^1.8.19
@@ -41,12 +46,17 @@ dependencies:
   '@vueuse/core': 10.10.0_vue@3.3.13
   axios: 1.6.0
   element-plus: 2.7.3_vue@3.3.13
+  github-markdown-css: 5.5.1
+  highlight.js: 11.9.0
   js-base64: 3.7.7
   lodash-es: 4.17.21
+  markdown-it: 14.1.0
+  markdown-it-anchor: 9.0.1_uu6vaxdk5ciicyh73j2bcv6uve
   opendesign: link:opendesign
   pinia: 2.1.7_lngveblik7gopzde4s55ktremi
   rxjs: 7.8.1
   vue: 3.3.13_typescript@5.4.5
+  vue-dompurify-html: 5.0.1_vue@3.3.13
   vue-i18n: 9.13.1_vue@3.3.13
   vue-router: 4.3.2_vue@3.3.13
 
@@ -812,7 +822,6 @@ packages:
 
   /@types/linkify-it/3.0.5:
     resolution: {integrity: sha512-yg6E+u0/+Zjva+buc3EIb+29XEg4wltq7cSmd4Uc2EE/1nUVmxyzpX6gUXD0V8jIrG0r7YeOGVIbYRkxeooCtw==}
-    dev: true
 
   /@types/lodash-es/4.17.12:
     resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
@@ -827,11 +836,9 @@ packages:
     dependencies:
       '@types/linkify-it': 3.0.5
       '@types/mdurl': 1.0.5
-    dev: true
 
   /@types/mdurl/1.0.5:
     resolution: {integrity: sha512-6L6VymKTzYSrEf4Nev4Xa1LCHKrlTlYCBMTlQKFuddo1CvQcE52I0mwfOJayueUC7MJuXOeHTcIU683lzd0cUA==}
-    dev: true
 
   /@types/node/18.19.33:
     resolution: {integrity: sha512-NR9+KrpSajr2qBVp/Yt5TU/rp+b5Mayi3+OlMlcg2cVCfRmcG5PWZ7S4+MG9PZ5gWBoc9Pd0BKSRViuBCRPu0A==}
@@ -1363,7 +1370,6 @@ packages:
 
   /argparse/2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
-    dev: true
 
   /array-union/2.1.0:
     resolution: {integrity: sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==}
@@ -1616,6 +1622,10 @@ packages:
       esutils: 2.0.3
     dev: true
 
+  /dompurify/3.1.5:
+    resolution: {integrity: sha512-lwG+n5h8QNpxtyrJW/gJWckL+1/DQiYMX8f7t8Z2AZTPw1esVrqjI63i7Zc2Gz0aKzLVMYC1V1PL/ky+aY/NgA==}
+    dev: false
+
   /eastasianwidth/0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
@@ -1656,7 +1666,6 @@ packages:
   /entities/4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
-    dev: true
 
   /es-module-lexer/1.5.3:
     resolution: {integrity: sha512-i1gCgmR9dCl6Vil6UKPI/trA69s08g/syhiDK9TG0Nf1RJjjFI+AzoWW7sPufzkgYAn861skuCwJa0pIIHYxvg==}
@@ -2014,6 +2023,11 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /github-markdown-css/5.5.1:
+    resolution: {integrity: sha512-2osyhNgFt7DEHnGHbgIifWawAqlc68gjJiGwO1xNw/S48jivj8kVaocsVkyJqUi3fm7fdYIDi4C6yOtcqR/aEQ==}
+    engines: {node: '>=10'}
+    dev: false
+
   /glob-parent/5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
@@ -2089,6 +2103,11 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
     dev: true
+
+  /highlight.js/11.9.0:
+    resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
+    engines: {node: '>=12.0.0'}
+    dev: false
 
   /html-tags/3.3.1:
     resolution: {integrity: sha512-ztqyC3kLto0e9WbNp0aeP+M3kTt+nbaIveGmUxAtZa+8iFgKLUOD4YKM5j+f3QD89bra7UeumolZHKuOXnTmeQ==}
@@ -2265,6 +2284,12 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /linkify-it/5.0.0:
+    resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
+    dependencies:
+      uc.micro: 2.1.0
+    dev: false
+
   /lint-staged/13.3.0:
     resolution: {integrity: sha512-mPRtrYnipYYv1FEE134ufbWpeggNTo+O/UPzngoaKzbzHAthvR55am+8GfHTnqNRQVRRrYQLGW9ZyUoD7DsBHQ==}
     engines: {node: ^16.14.0 || >=18.0.0}
@@ -2366,6 +2391,32 @@ packages:
     resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  /markdown-it-anchor/9.0.1_uu6vaxdk5ciicyh73j2bcv6uve:
+    resolution: {integrity: sha512-cBt7aAzmkfX8X7FqAe8EBryiKmToXgMQEEMqkXzWCm0toDtfDYIGboKeTKd8cpNJArJtutrf+977wFJTsvNGmQ==}
+    peerDependencies:
+      '@types/markdown-it': '*'
+      markdown-it: '*'
+    dependencies:
+      '@types/markdown-it': 13.0.8
+      markdown-it: 14.1.0
+    dev: false
+
+  /markdown-it/14.1.0:
+    resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
+    hasBin: true
+    dependencies:
+      argparse: 2.0.1
+      entities: 4.5.0
+      linkify-it: 5.0.0
+      mdurl: 2.0.0
+      punycode.js: 2.3.1
+      uc.micro: 2.1.0
+    dev: false
+
+  /mdurl/2.0.0:
+    resolution: {integrity: sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==}
+    dev: false
 
   /memoize-one/6.0.0:
     resolution: {integrity: sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==}
@@ -2665,6 +2716,11 @@ packages:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
     dev: false
 
+  /punycode.js/2.3.1:
+    resolution: {integrity: sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA==}
+    engines: {node: '>=6'}
+    dev: false
+
   /punycode/2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -2932,6 +2988,10 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  /uc.micro/2.1.0:
+    resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
+    dev: false
+
   /ufo/1.5.3:
     resolution: {integrity: sha512-Y7HYmWaFwPUmkoQCUIAYpKqkOf+SbVj/2fJJZ4RJMCfZp0rTGwRbzQD+HghfnhKOjL9E01okqz+ncJskGYfBNw==}
     dev: true
@@ -3138,6 +3198,15 @@ packages:
         optional: true
     dependencies:
       vue: 3.3.13_typescript@5.4.5
+
+  /vue-dompurify-html/5.0.1_vue@3.3.13:
+    resolution: {integrity: sha512-8yoMbo7PX4vt01k0dcCHvP4tY0fOCLkQeMhXXRNmH7/muIUTkFOQNzkAtE0RmqgaF/unabvYnsnCu2CjIMgueg==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      dompurify: 3.1.5
+      vue: 3.3.13_typescript@5.4.5
+    dev: false
 
   /vue-eslint-parser/9.4.2_eslint@8.57.0:
     resolution: {integrity: sha512-Ry9oiGmCAK91HrKMtCrKFWmSFWvYkpGglCeFAIqDdr9zdXmMMpJOmUJS7WWsW7fX81h6mwHmUZCQQ1E0PkSwYQ==}

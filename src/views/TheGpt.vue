@@ -80,7 +80,7 @@ watch(
 <template>
   <div class="gpt">
     <div class="left">
-      <h3>Gauss AI小助手</h3>
+      <h3>openGauss 小助手</h3>
       <OButton class="btn" size="small" @click="newThread('新对话')" type="primary">新建对话</OButton>
       <HistoryList @clickItem="selectThread" @deleteItem="deleteThread" :threads="threads"></HistoryList>
     </div>

@@ -57,7 +57,7 @@ function clipTxt(text: string) {
     <div class="ai-content">
       <div class="markdown-body" v-dompurify-html="useMarkdown().mkit(chatItem.content)"></div>
       <div class="icon-group" v-if="chatItem?.response_metadata?.finish_reason === 'stop' || chatItem.type === 'tool'">
-        <OIcon class="icon" @click="clipTxt(chatItem.content)">
+        <OIcon v-if="chatItem.type === 'ai'" class="icon" @click="clipTxt(chatItem.content)">
           <component :is="IconCopy"></component>
         </OIcon>
         <OIcon class="icon" @click="clickLike">

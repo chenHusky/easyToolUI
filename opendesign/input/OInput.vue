@@ -5,7 +5,14 @@ const attrs = useAttrs();
 </script>
 
 <template>
-  <ElInput class="o-input" v-bind="attrs"></ElInput>
+  <ElInput class="o-input" v-bind="attrs">
+    <template #prefix>
+      <slot name="prefix"></slot>
+    </template>
+    <template #suffix>
+      <slot name="suffix"></slot>
+    </template>
+  </ElInput>
 </template>
 
 <style lang="scss">
@@ -24,7 +31,7 @@ const attrs = useAttrs();
     line-height: var(--o-input-font-size);
 
     .el-input__wrapper {
-      border-radius: 0;
+      border-radius: 4px;
       padding: 1px 15px;
       background-color: var(--o-input-color-bg);
       box-shadow: 0 0 0 1px var(--o-input-border-color) inset;

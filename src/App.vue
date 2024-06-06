@@ -29,6 +29,5 @@ header {
 }
 main {
   background-color: #F3F3F3;
-  height: 100vh;
 }
 </style>

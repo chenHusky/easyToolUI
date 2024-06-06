@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import { getAssistant, createThreads, getAllThreads, deleteThreads, getThreadState } from '@/api/api-gpt';
+import { getAssistant, createThreads, getAllThreads, deleteThreads, modifyThreads, getThreadState } from '@/api/api-gpt';
 import { useStreamState, mergeMessagesById, Message } from '@/hooks/useStreamState';
 import { useStoreData } from '@/shared/login';
 import { ref, watch } from 'vue';
 import LoginModal from './components/LoginModal.vue';
+import HistoryList from './components/HistoryList.vue';
+import IconSend from '~icons/app/icon-search.svg'
+import { useMagicKeys } from '@vueuse/core'
 
+const { enter } = useMagicKeys();
 const { guardAuthClient } = useStoreData();
 
 const visible = ref(false);
@@ -70,6 +74,7 @@ const sendReq = () => {
     id,
   }];
   startStream(input, threadId.value);
+  searchValue.value = '';
 }
 watch(
   () => stream.value,
@@ -97,15 +102,18 @@ watch(
     immediate: true,
   }
 )
+watch(enter, (v) => {
+  if (v && searchValue.value) {
+    sendReq()
+  }
+})
 </script>
 <template>
   <div class="gpt">
     <div class="left">
-      <OButton class="btn" @click="newThread('opengauss')">新建对话</OButton>
-      <div v-for="item in threads" :key="item.thread_id" class="thread" @click="selectThread(item.thread_id)">
-        {{ item.name }}
-        <span @click="deleteThread(item.thread_id)">删除</span>
-      </div>
+      <h3>Gauss AI小助手</h3>
+      <OButton class="btn" size="small" @click="newThread('新对话')" type="primary">新建对话</OButton>
+      <HistoryList @clickItem="selectThread" @deleteItem="deleteThread" :threads="threads"></HistoryList>
     </div>
     <div class="right">
       <div class="chat">
@@ -114,8 +122,13 @@ watch(
         </template>
       </div>
       <div class="send">
-        <OInput v-model="searchValue"></OInput>
-        <OButton @click="sendReq">发送</OButton>
+        <OInput v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Enter发送">
+          <template #suffix>
+            <div class="send-icon">
+              <OIcon @click="sendReq"><IconSend/></OIcon>
+            </div>
+          </template>
+        </OInput>
       </div>
     </div>
   </div>
@@ -123,28 +136,32 @@ watch(
 </template>
 
 <style scoped lang="scss">
+@use '@/shared/styles/mixin/common.scss' as *;
 .gpt {
-  padding: 40px;
+  padding: 32px;
   display: flex;
   column-gap: 40px;
 }
 
 .left {
-  height: 80vh;
-  width: 300px;
+  height: calc(100vh - 112px);
+  width: 312px;
   background-color: #fff;
-  padding: 16px;
+  padding: 24px;
+  overflow: auto;
+  @include scrollbar;
+  h3 {
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 24px;
+  }
 
   .btn {
     width: 100%;
     justify-content: center;
-  }
-
-  .thread {
-    width: 100%;
-    background-color: #999;
-    margin-top: 16px;
-    padding: 16px;
+    height: 40px;
+    background-image: linear-gradient(270deg, #7d78ff, #7d32ea);
+    margin-bottom: 16px;
   }
 }
 
@@ -152,14 +169,27 @@ watch(
   width: 70%;
 
   .chat {
-    height: 65vh;
+    height: calc(100vh - 184px);
   }
 
   .send {
     display: flex;
-    background-color: #fff;
     width: 100%;
     column-gap: 24px;
-    padding: 16px;
+    .o-input {
+      --o-input-border-color: none;
+      height: 72px;
+    }
+    .send-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background-color: #7d32ea;
+    }
   }
 }</style>

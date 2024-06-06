@@ -59,6 +59,16 @@ export function deleteThreads(id: string) {
     })
     .then((res: AxiosResponse) => res.data)
 }
+export function modifyThreads(id: string, params: {name: string, assistant_id: string}) {
+  const url = `/api-gpt/threads/${id}`;
+  return request
+    .put(url, params, {
+      global: true,
+      $doException: true, 
+      ...getHeaderConfig(),
+    })
+    .then((res: AxiosResponse) => res.data)
+}
 
 export function getThreadState(id: string) {
   const url = `/api-gpt/threads/${id}/state`;

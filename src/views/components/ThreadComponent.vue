@@ -132,6 +132,7 @@ defineExpose({
       justify-content: center;
       color: #fff;
       background-color: #7d32ea;
+      cursor: pointer;
     }
     .disableIcon {
       background-color: rgba(125, 50, 234, 0.4);

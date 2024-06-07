@@ -81,6 +81,7 @@ function clipTxt(text: string) {
     width: 48px;
     height: 48px;
     border-radius: 50%;
+    flex-shrink: 0;
   }
 }
 .human-content {
@@ -88,12 +89,13 @@ function clipTxt(text: string) {
   border: 1px solid rgba(125, 50, 234, 0.2);
   padding: 11px 32px;
   border-radius: 0 12px 12px 12px;
+  max-width: 960px;
 }
 .ai-content {
   background-color: #fff;
   padding: 32px 32px 24px 32px;
   border-radius: 0 12px 12px 12px;
-  width: 100%;
+  width: 960px;
 }
 .icon-group {
   display: flex;

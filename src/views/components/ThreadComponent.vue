@@ -104,7 +104,7 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="right">
+  <div class="qa-content">
     <div class="chat" ref="ChatRef" v-if="allState.length">
       <div v-for="(item) in allState" style="margin-bottom: 24px">
         <ChatItemContent :chat-item="item"></ChatItemContent>
@@ -126,7 +126,7 @@ defineExpose({
         <div v-for="item in defaultChatList" class="default-chat-item" @click="sendReq(item)"> {{ item }} </div>
       </div>
     </div>
-    <div class="send">
+    <div class="send" :class="{ 'have-state': allState.length }">
       <OInput :disabled="disableInput" v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Enter发送">
         <template #suffix>
           <div class="send-icon" :class="disableInput && 'disableIcon'">
@@ -136,11 +136,18 @@ defineExpose({
       </OInput>
     </div>
   </div>
+  <div class="right" v-if="allState.length">
+    <h3>场景问答</h3>
+    <p>可以基于以下场景进行提问，回复会更准确哦，点击查看问题样本</p>
+    <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.title)">
+      {{ item.title }}
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
 @use '@/shared/styles/mixin/common.scss' as *;
-.right {
-  width: 70%;
+.qa-content {
+  width: 1200px;
 
   .chat {
     height: calc(100vh - 256px);
@@ -149,7 +156,6 @@ defineExpose({
   }
 
   .scene-chat {
-    margin-left: 140px;
     margin-top: 88px;
     background-color: #fff;
     padding: 32px;
@@ -239,6 +245,43 @@ defineExpose({
     }
     .disableIcon {
       background-color: rgba(125, 50, 234, 0.4);
+    }
+  }
+  .have-state {
+    width: 960px;
+    margin-left: 64px;
+  }
+}
+.right {
+  height: calc(100vh - 112px);
+  width: 312px;
+  background-color: #fff;
+  padding: 24px;
+  overflow: auto;
+  @include scrollbar;
+  h3 {
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  p {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 24px;
+  }
+  .scene-list-item {
+    color: var(--o-color-text1);
+    font-size: 16px;
+    line-height: 24px;
+    padding: 16px 24px;
+    background-color: #f4f5f7;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 16px;
+    &:hover {
+      background-color: #fff;
+      box-shadow: 0 8px 40px 0 rgba(18, 20, 23, .1);
     }
   }
 }

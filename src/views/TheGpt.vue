@@ -91,10 +91,11 @@ onMounted(() => {
 .gpt {
   padding: 32px;
   display: flex;
-  column-gap: 40px;
+  column-gap: 72px;
 }
 
 .left {
+  flex-shrink: 0;
   height: calc(100vh - 112px);
   width: 312px;
   background-color: #fff;
@@ -105,6 +106,7 @@ onMounted(() => {
     font-size: 20px;
     line-height: 28px;
     margin-bottom: 24px;
+    font-weight: 600;
   }
 
   .btn {

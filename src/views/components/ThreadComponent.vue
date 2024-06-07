@@ -9,7 +9,8 @@ import ChatItemContent from './ChatItemContent.vue';
 import { sceneChatList, defaultChatList } from '@/data/chat';
 
 const { threadId, assistantId } = useIdsStore();
-const { enter } = useMagicKeys();
+const keys  = useMagicKeys();
+const shiftEnter = keys['Shift+Enter']
 const searchValue = ref('');
 const disableInput = ref(false);
 const ChatRef = ref();
@@ -93,7 +94,7 @@ const sendReq = (str?: string) => {
 }
 
 // 回车发送
-watch(enter, (v) => {
+watch(shiftEnter, (v) => {
   if (v && searchValue.value) {
     sendReq()
   }
@@ -127,7 +128,7 @@ defineExpose({
       </div>
     </div>
     <div class="send" :class="{ 'have-state': allState.length }">
-      <OInput :disabled="disableInput" v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Enter发送">
+      <OInput :disabled="disableInput" v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Shift + Enter发送">
         <template #suffix>
           <div class="send-icon" :class="disableInput && 'disableIcon'">
             <OIcon @click="sendReq"><IconSend/></OIcon>

@@ -142,13 +142,16 @@ function filterMsgs(msg: Message[] | Record<string, any> | null | undefined) {
   // type为tool时。content为字符串，取tool的值，若为对象，取后一个ai的值
   let isDelete = false;
   return (Array.isArray(msg) ? msg : msg?.messages).reduce((pre, next) => {
-    if (['ai', 'human'].includes(next.type) && !isDelete && next.content) {
+    // if (['ai', 'human'].includes(next.type) && !isDelete && next.content) {
+    //   pre.push(next)
+    // } else if (next.type === 'tool' && typeof(next.content) === 'string') {
+    //   pre.push(next);
+    //   isDelete = true;
+    // } else if (isDelete) {
+    //   isDelete = false;
+    // }
+    if (['ai', 'human'].includes(next.type) && next.content) {
       pre.push(next)
-    } else if (next.type === 'tool' && typeof(next.content) === 'string') {
-      pre.push(next);
-      isDelete = true;
-    } else if (isDelete) {
-      isDelete = false;
     }
     return pre;
   }, [])

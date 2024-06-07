@@ -59,7 +59,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api-gpt/': {
-        target: 'http://49.0.247.36:8100/',
+        target: 'https://opengpts.test.osinfra.cn/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api-gpt/, ''),
       },

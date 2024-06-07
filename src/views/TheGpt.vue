@@ -10,8 +10,7 @@ import { useIdsStore } from '@/stores/id';
 const { guardAuthClient, loginModalVisible } = useStoreData();
 
 const threadCom = ref();
-const assistantId = ref('');
-const { threadId } = useIdsStore();
+const { threadId, assistantId } = useIdsStore();
 
 // 获取assistantId
 const initIds = () => {
@@ -43,9 +42,11 @@ const newThread = (name: string) => {
 
 // 获取所有对话
 const threads = ref<any>([]);
-const initThreads = () => {
+const initThreads = (type?: string) => {
   getAllThreads().then((res) => {
     threads.value = res;
+    // 若为子组件触发则跳过
+    if (type === 'child') return;
     // 存在对话选择展示第一条
     if (threads.value.length) {
       selectThread(threads.value[0].thread_id);
@@ -80,7 +81,7 @@ onMounted(() => {
       <OButton class="btn" size="small" @click="newThread('新对话')" type="primary">新建对话</OButton>
       <HistoryList @clickItem="selectThread" @deleteItem="deleteThread" :threads="threads"></HistoryList>
     </div>
-    <ThreadComponent ref="threadCom"></ThreadComponent>
+    <ThreadComponent ref="threadCom" @create-thread="initThreads('child')"></ThreadComponent>
   </div>
   <LoginModal v-model="loginModalVisible"></LoginModal>
 </template>

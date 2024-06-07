@@ -3,7 +3,8 @@ import { ref } from 'vue';
 
 export const useIds = defineStore('id', () => {
   const threadId = ref('');
-  return { threadId };
+  const assistantId = ref('');
+  return { threadId, assistantId };
 });
 export function useIdsStore() {
   const ids = useIds();

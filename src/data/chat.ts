@@ -17,7 +17,7 @@ export const sceneChatList = [
 ]
 export const defaultChatList = [
     '签署CLA怎么签署',
-    '查询个人提交的Issue信息，Issue详情',
-    '查询SIG中最活跃的Maintainer信息',
-    '查询SIG公开信息',
+    'Retriever检索opengauss社区技术委员会成员',
+    '社区最近3次会议是哪些',
+    '查询社区有哪些SIG组',
 ]

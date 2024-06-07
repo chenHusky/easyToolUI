@@ -126,7 +126,7 @@ const removeSessionInfo = () => {
 };
 
 // 刷新后重新请求登录用户信息
-export function refreshInfo(community = 'openeuler') {
+export function refreshInfo() {
   const { token } = getUserAuth();
   if (token) {
     const { setGuardAuthClient } = useLogin();
@@ -141,4 +141,44 @@ export function refreshInfo(community = 'openeuler') {
   } else {
     removeSessionInfo();
   }
+}
+
+// 判断是否为有效登录状态
+export function isLogined() {
+  return new Promise((resolve, reject) => {
+    const { token } = getUserAuth();
+    if (token) {
+      const { setGuardAuthClient } = useLogin();
+      setGuardAuthClient(getSessionInfo());
+      queryPermission()
+        .then((res: any) => {
+          const { data } = res;
+          if (data) {
+            if (Object.prototype.toString.call(data) === '[object Object]') {
+              setGuardAuthClient(data);
+              setSessionInfo(data);
+            }
+            resolve(data);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch(() => resolve(false));
+    } else {
+      removeSessionInfo();
+      resolve(false);
+    }
+  });
+}
+
+export const initLogin = () => {
+  return isLogined().then((res) => {
+    const { loginModalVisible } = useStoreData()
+    if (res) {
+      loginModalVisible.value = false;
+    } else {
+      loginModalVisible.value = true;
+    }
+    return res;
+  })
 }

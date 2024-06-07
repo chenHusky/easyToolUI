@@ -20,5 +20,6 @@ export const useLogin = defineStore('login', () => {
   const clearGuardAuthClient = () => {
     setGuardAuthClient({});
   };
-  return { guardAuthClient, setGuardAuthClient, clearGuardAuthClient };
+  const loginModalVisible = ref(false);
+  return { guardAuthClient, setGuardAuthClient, clearGuardAuthClient, loginModalVisible };
 });

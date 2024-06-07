@@ -16,16 +16,19 @@ const { startStream, stream } = useStreamState();
 
 const allState = ref<Message[]>([])
 const getState = (id: string) => {
-  getThreadState(id).then(res => {
-    const arr = mergeMessagesById(res.values, []);
-    if (arr.length !== allState.value.length) {
-      allState.value = arr;
-    }
-    if (res.next.length) {
-      disableInput.value = true;
-    }
-    keepScrollBottom();
-  })
+  if (id) {
+    getThreadState(id).then(res => {
+      const arr = mergeMessagesById(res.values, []);
+      if (arr.length !== allState.value.length) {
+        allState.value = arr;
+      }
+      disableInput.value = !!res.next.length;
+      keepScrollBottom();
+    })
+  } else {
+    allState.value = [];
+    disableInput.value = false;
+  }
 }
 const init = () => {
   getState(threadId.value);

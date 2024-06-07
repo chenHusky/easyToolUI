@@ -1,15 +1,14 @@
 <script lang="ts" setup>
 import { getAssistant, createThreads, getAllThreads, deleteThreads } from '@/api/api-gpt';
-import { useStoreData } from '@/shared/login';
-import { ref, watch } from 'vue';
+import { initLogin, useStoreData } from '@/shared/login';
+import { onMounted, ref } from 'vue';
 import LoginModal from './components/LoginModal.vue';
 import HistoryList from './components/HistoryList.vue';
 import ThreadComponent from './components/ThreadComponent.vue';
 import { useIdsStore } from '@/stores/id';
 
-const { guardAuthClient } = useStoreData();
+const { guardAuthClient, loginModalVisible } = useStoreData();
 
-const visible = ref(false);
 const threadCom = ref();
 const assistantId = ref('');
 const { threadId } = useIdsStore();
@@ -28,13 +27,17 @@ const initIds = () => {
 }
 
 const newThread = (name: string) => {
-  const param = {
-    assistant_id: assistantId.value,
-    name,
-  }
-  createThreads(param).then(res => {
-    selectThread(res.thread_id);
-    initThreads();
+  initLogin().then(res => {
+    if (res) {
+      const param = {
+        assistant_id: assistantId.value,
+        name,
+      }
+      createThreads(param).then(res => {
+        selectThread(res.thread_id);
+        initThreads();
+      });
+    }
   });
 }
 
@@ -46,6 +49,8 @@ const initThreads = () => {
     // 存在对话选择展示第一条
     if (threads.value.length) {
       selectThread(threads.value[0].thread_id);
+    } else {
+      selectThread('');
     }
   })
 }
@@ -59,23 +64,14 @@ const deleteThread = (id: string) => {
     initThreads();
   })
 }
-
-watch(
-  () => guardAuthClient.value.username,
-  () => {
-    if (guardAuthClient.value.username) {
+onMounted(() => {
+  initLogin().then(res => {
+    if (res) {
       initIds();
       initThreads();
-      visible.value = false;
-    } else {
-      visible.value = true;
     }
-  },
-  {
-    deep: true,
-    immediate: true,
-  }
-)
+  });
+})
 </script>
 <template>
   <div class="gpt">
@@ -86,7 +82,7 @@ watch(
     </div>
     <ThreadComponent ref="threadCom"></ThreadComponent>
   </div>
-  <LoginModal v-model="visible"></LoginModal>
+  <LoginModal v-model="loginModalVisible"></LoginModal>
 </template>
 
 <style scoped lang="scss">

@@ -44,7 +44,7 @@ const newThread = (name: string) => {
 const threads = ref<any>([]);
 const initThreads = (type?: string) => {
   getAllThreads().then((res) => {
-    threads.value = res?.filter((item: any) => !item.assistant_id) || [];
+    threads.value = res?.filter((item: any) => item.assistant_id) || [];
     // 若为子组件触发则跳过
     if (type === 'child') return;
     // 存在对话选择展示第一条

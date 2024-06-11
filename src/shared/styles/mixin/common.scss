@@ -12,16 +12,19 @@
   &::-webkit-scrollbar-track {
     border-radius: 4px;
     background-color: var(--o-color-bg2);
+    overflow: overlay;
   }
 
   &::-webkit-scrollbar {
     width: 6px;
     height: 6px;
     background-color: var(--o-color-bg2);
+    overflow: overlay;
   }
 
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background: var(--o-color-division1);
+    overflow: overlay;
   }
 }

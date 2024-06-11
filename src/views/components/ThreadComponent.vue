@@ -105,7 +105,7 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="qa-content">
+  <div class="qa-content" :class="{ 'no-state-content': !allState.length }">
     <div class="chat" ref="ChatRef" v-if="allState.length">
       <div v-for="(item) in allState" style="margin-bottom: 24px">
         <ChatItemContent :chat-item="item"></ChatItemContent>
@@ -131,7 +131,7 @@ defineExpose({
       <OInput :disabled="disableInput" v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Shift + Enter发送">
         <template #suffix>
           <div class="send-icon" :class="disableInput && 'disableIcon'">
-            <OIcon @click="sendReq"><IconSend/></OIcon>
+            <OIcon @click="sendReq()"><IconSend/></OIcon>
           </div>
         </template>
       </OInput>
@@ -147,12 +147,17 @@ defineExpose({
 </template>
 <style lang="scss" scoped>
 @use '@/shared/styles/mixin/common.scss' as *;
+.no-state-content {
+  margin-left: 108px;
+  margin-right: 164px;
+}
 .qa-content {
-  width: 1200px;
-
+  min-width: 1100px;
+  flex-grow: 1;
   .chat {
     height: calc(100vh - 256px);
     overflow: auto;
+    padding-right: 8px;
     @include scrollbar;
   }
 
@@ -202,6 +207,7 @@ defineExpose({
 
   .operate {
     height: 72px;
+    padding-right: 8px;
     .default-chats {
       display: flex;
       justify-content: end;
@@ -227,6 +233,7 @@ defineExpose({
     display: flex;
     width: 100%;
     column-gap: 24px;
+    padding-right: 8px;
     .o-input {
       --o-input-border-color: none;
       --o-input-disabled-border-color: rgba(125, 50, 234, 0.4);
@@ -249,8 +256,8 @@ defineExpose({
     }
   }
   .have-state {
-    width: 960px;
-    margin-left: 64px;
+    min-width: 900px;
+    padding-left: 64px;
   }
 }
 .right {
@@ -259,6 +266,7 @@ defineExpose({
   background-color: #fff;
   padding: 24px;
   overflow: auto;
+  flex-shrink: 0;
   @include scrollbar;
   h3 {
     font-size: 20px;

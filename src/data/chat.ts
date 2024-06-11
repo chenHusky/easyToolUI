@@ -18,6 +18,6 @@ export const sceneChatList = [
 export const defaultChatList = [
     '签署CLA怎么签署',
     'Retriever检索opengauss社区技术委员会成员',
-    '社区最近3次会议是哪些',
+    'QA sig组最近3次会议是哪些',
     '查询社区有哪些SIG组',
 ]

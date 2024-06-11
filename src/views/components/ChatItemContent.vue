@@ -89,13 +89,13 @@ function clipTxt(text: string) {
   border: 1px solid rgba(125, 50, 234, 0.2);
   padding: 11px 32px;
   border-radius: 0 12px 12px 12px;
-  max-width: 960px;
 }
 .ai-content {
   background-color: #fff;
   padding: 32px 32px 24px 32px;
   border-radius: 0 12px 12px 12px;
-  width: 960px;
+  min-width: 900px;
+  width: 100%;
 }
 .icon-group {
   display: flex;

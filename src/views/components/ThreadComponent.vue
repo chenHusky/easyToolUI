@@ -2,15 +2,12 @@
 import { createThreads, getThreadState } from '@/api/api-gpt';
 import { mergeMessagesById, Message, useStreamState } from '@/hooks/useStreamState';
 import { useIdsStore } from '@/stores/id';
-import { useMagicKeys } from '@vueuse/core';
 import IconSend from '~icons/app/icon-search.svg'
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import ChatItemContent from './ChatItemContent.vue';
 import { sceneChatList, defaultChatList } from '@/data/chat';
 
 const { threadId, assistantId } = useIdsStore();
-const keys  = useMagicKeys();
-const shiftEnter = keys['Shift+Enter']
 const searchValue = ref('');
 const disableInput = ref(false);
 const ChatRef = ref();
@@ -94,10 +91,17 @@ const sendReq = (str?: string) => {
 }
 
 // 回车发送
-watch(shiftEnter, (v) => {
-  if (v && searchValue.value) {
-    sendReq()
+const enterSearch = (e) => {
+  if (e.key === 'Enter' && searchValue.value) {
+    sendReq();
   }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', enterSearch)
+})
+onUnmounted(() => {
+  window.removeEventListener('keydown', enterSearch)
 })
 
 defineExpose({
@@ -128,7 +132,7 @@ defineExpose({
       </div>
     </div>
     <div class="send" :class="{ 'have-state': allState.length }">
-      <OInput :disabled="disableInput" v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Shift + Enter发送">
+      <OInput :disabled="disableInput" v-model="searchValue" maxlength="2000" placeholder="请输入你想了解的内容，按Enter发送">
         <template #suffix>
           <div class="send-icon" :class="disableInput && 'disableIcon'">
             <OIcon @click="sendReq()"><IconSend/></OIcon>

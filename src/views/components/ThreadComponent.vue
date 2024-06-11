@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createThreads, getThreadState } from '@/api/api-gpt';
+import { createThreads, getThreadState, modifyThreads } from '@/api/api-gpt';
 import { mergeMessagesById, Message, useStreamState } from '@/hooks/useStreamState';
 import { useIdsStore } from '@/stores/id';
 import IconSend from '~icons/app/icon-search.svg'
@@ -85,6 +85,12 @@ const sendReq = (str?: string) => {
         sendReqFun(value);
       });
     } else {
+      // 如果是新创建对话，第一次搜索修改对话名称
+      if (!allState.value.length) {
+        modifyThreads(threadId.value, { name: value, assistant_id: assistantId.value }).then(() => {
+          emits('createThread');
+        })
+      }
       sendReqFun(value);
     }
   }

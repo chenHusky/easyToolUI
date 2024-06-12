@@ -2,7 +2,7 @@
 import { createThreads, getThreadState, modifyThreads } from '@/api/api-gpt';
 import { mergeMessagesById, Message, useStreamState } from '@/hooks/useStreamState';
 import { useIdsStore } from '@/stores/id';
-import IconSend from '~icons/app/icon-search.svg'
+import IconSend from '~icons/app/icon-send.svg'
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import ChatItemContent from './ChatItemContent.vue';
 import { sceneChatList, defaultChatList } from '@/data/chat';
@@ -127,6 +127,7 @@ defineExpose({
         <p class="desc"><span>场景问答： </span>可以基于以下场景进行提问，回复会更准确哦，点击查看问题样本</p>
         <div class="scene-list">
           <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.title)">
+            <img :src="item.img">
             {{ item.title }}
           </div>
         </div>
@@ -151,6 +152,7 @@ defineExpose({
     <h3>场景问答</h3>
     <p>可以基于以下场景进行提问，回复会更准确哦，点击查看问题样本</p>
     <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.title)">
+      <img :src="item.img">
       {{ item.title }}
     </div>
   </div>
@@ -199,6 +201,9 @@ defineExpose({
       grid-template-columns: auto auto auto;
       gap: 24px;
       .scene-list-item {
+        display: flex;
+        align-items: center;
+        column-gap: 6px;
         color: var(--o-color-text1);
         font-weight: 600;
         font-size: 20px;
@@ -210,6 +215,10 @@ defineExpose({
         &:hover {
           background-color: #fff;
           box-shadow: 0 8px 40px 0 rgba(18, 20, 23, .1);
+        }
+        img {
+          width: 50px;
+          height: 50px;
         }
       }
     }
@@ -290,10 +299,13 @@ defineExpose({
     margin-bottom: 24px;
   }
   .scene-list-item {
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
     color: var(--o-color-text1);
     font-size: 16px;
     line-height: 24px;
-    padding: 16px 24px;
+    padding: 7px 16px;
     background-color: #f4f5f7;
     border-radius: 4px;
     cursor: pointer;
@@ -301,6 +313,10 @@ defineExpose({
     &:hover {
       background-color: #fff;
       box-shadow: 0 8px 40px 0 rgba(18, 20, 23, .1);
+    }
+    img {
+      width: 50px;
+      height: 50px;
     }
   }
 }

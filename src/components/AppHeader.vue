@@ -98,6 +98,8 @@ const jumpToApply = () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: var(--o-color-bg2);
+  box-shadow: 0 1px 16px 0 rgba(25, 25, 25, .05);
   .logo {
     width: 96px;
   }

@@ -4,6 +4,7 @@ import { PropType, ref, toRefs } from 'vue';
 import IconDelete from '~icons/app/icon-delete.svg';
 import DeleteThreadModal from './DeleteThreadModal.vue';
 import noData from '@/assets/404.png';
+import { useIdsStore } from '@/stores/id';
 
 const props = defineProps({
   threads: {
@@ -12,6 +13,7 @@ const props = defineProps({
   },
 });
 const { threads } = toRefs(props);
+const { threadId } = useIdsStore();
 const deleteVisible = ref(false);
 const emits = defineEmits(['clickItem', 'deleteItem']);
 const selectThread = (threadId: string) => {
@@ -38,7 +40,7 @@ const confirm = () => {
       <div class="desc">
         仅展示最近200条对话
       </div>
-      <div v-for="item in threads" :key="item.thread_id" class="thread" @click="selectThread(item.thread_id)">
+      <div v-for="item in threads" :key="item.thread_id" class="thread" :class="{'thread-active': item.thread_id === threadId}" @click="selectThread(item.thread_id)">
         <div class="thread-item">{{ item.name }}</div>
         <OIcon class="thread-delete" @click.stop="deleteThread(item.thread_id)"><IconDelete /></OIcon>
         <p class="thread-time">{{ formatDate(item.updated_at) }}</p>
@@ -73,16 +75,22 @@ const confirm = () => {
   margin-bottom: 16px;
 }
 .thread {
+  &-active {
+    background-image: linear-gradient(90deg, rgba(125,50,234,.1) 0%, rgba(125,50,234,.05) 53%, rgba(125,50,234,.1) 100%);
+  }
   width: 100%;
   background-color: #F4F5F7;
   padding: 12px 16px;
   margin-bottom: 8px;
   position: relative;
   cursor: pointer;
+  border-radius: 4px;
   &:hover {
     .thread-delete {
       display: block;
     }
+    background-color: #fff;
+    box-shadow: 0 8px 40px 0 rgba(18, 20, 23, .1);
   }
   .thread-item {
     overflow: hidden;

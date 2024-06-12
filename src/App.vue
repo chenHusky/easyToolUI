@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue';
-
 import { refreshInfo } from '@/shared/login';
 
 refreshInfo();
@@ -15,7 +14,7 @@ refreshInfo();
 header {
   color:  var(--o-color-brand1);
 }
-main {
-  background-color: #F3F3F3;
+#app {
+  background-image: url('@/assets/images/bg.png');
 }
 </style>

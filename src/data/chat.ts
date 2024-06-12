@@ -1,18 +1,29 @@
+import meeting from '@/assets/images/map-meeting.png';
+import pr from '@/assets/images/map-pr.png';
+import contribution from '@/assets/images/map-contribution.png';
+import sig from '@/assets/images/map-sig.png';
+import data from '@/assets/images/map-data.png';
+
 export const sceneChatList = [
     {
-        title: '社区贡献'
+        title: '社区贡献',
+        img: contribution,
     },
     {
-        title: 'PR详情、PR Review'
+        title: 'PR详情、PR Review',
+        img: pr,
     },
     {
-        title: 'SIG信息'
+        title: 'SIG信息',
+        img: sig,
     },
     {
-        title: '社区数据'
+        title: '社区数据',
+        img: data,
     },
     {
-        title: '会议查询以及预定'
+        title: '会议查询以及预定',
+        img: meeting,
     },
 ]
 export const defaultChatList = [

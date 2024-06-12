@@ -283,6 +283,8 @@ defineExpose({
   height: calc(100vh - 112px);
   width: 312px;
   background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 16px 0 rgba(25, 25, 25, 0.05);
   padding: 24px;
   overflow: auto;
   flex-shrink: 0;

@@ -1,5 +1,5 @@
 import { fetchEventSource } from "@microsoft/fetch-event-source";
-import { valueEquals } from "element-plus";
+import { cloneDeep } from "lodash-es";
 import { Ref, ref } from "vue";
 
 export interface ToolCall {
@@ -138,10 +138,11 @@ export function useStreamState(): StreamStateProps {
   };
 }
 
-function filterMsgs(msg: Message[] | Record<string, any> | null | undefined) {
+export function filterMsgs(msg: Message[] | Record<string, any> | null | undefined) {
   // type为tool时。content为字符串且为约定开头，取tool的值，若为对象，取后一个ai的值
   let isDelete = false;
-  return (Array.isArray(msg) ? msg : msg?.messages).reduce((pre, next) => {
+  const _msg = cloneDeep(msg);
+  return (Array.isArray(_msg) ? _msg : _msg?.messages).reduce((pre, next) => {
     if (['ai', 'human'].includes(next.type) && !isDelete && next.content) {
       pre.push(next)
     } else if (next.type === 'tool' && typeof(next.content) === 'string' && next.content.startsWith('<div class="chat-question-content">')) {
@@ -170,5 +171,5 @@ export function mergeMessagesById(
       merged[foundIdx] = msg;
     }
   }
-  return filterMsgs(merged);
+  return merged;
 }

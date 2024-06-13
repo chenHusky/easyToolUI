@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { createThreads, getThreadState, modifyThreads } from '@/api/api-gpt';
-import { mergeMessagesById, Message, useStreamState } from '@/hooks/useStreamState';
+import { filterMsgs, mergeMessagesById, Message, useStreamState } from '@/hooks/useStreamState';
 import { useIdsStore } from '@/stores/id';
 import IconSend from '~icons/app/icon-send.svg'
-import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import ChatItemContent from './ChatItemContent.vue';
 import { sceneChatList, defaultChatList } from '@/data/chat';
 
@@ -14,13 +14,11 @@ const ChatRef = ref();
 const { startStream, stream } = useStreamState();
 
 const allState = ref<Message[]>([])
+const showAllState = computed(() => filterMsgs(allState.value));
 const getState = (id: string) => {
   if (id) {
     getThreadState(id).then(res => {
-      const arr = mergeMessagesById(res.values, []);
-      if (arr.length !== allState.value.length) {
-        allState.value = arr;
-      }
+      allState.value = res.values;
       disableInput.value = !!res.next.length;
       keepScrollBottom();
     })
@@ -117,7 +115,7 @@ defineExpose({
 <template>
   <div class="qa-content" :class="{ 'no-state-content': !allState.length }">
     <div class="chat" ref="ChatRef" v-if="allState.length">
-      <div v-for="(item) in allState" style="margin-bottom: 24px">
+      <div v-for="(item) in showAllState" style="margin-bottom: 24px">
         <ChatItemContent :chat-item="item" @click-item="sendReq($event as string)"></ChatItemContent>
       </div>
     </div>

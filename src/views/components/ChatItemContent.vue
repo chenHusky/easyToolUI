@@ -44,6 +44,23 @@ function clipTxt(text: string) {
     });
   });
 }
+const emits = defineEmits(['clickItem']);
+const clickItem = (event: any) => {
+  if (event.target?.className === 'chat-question-list-item') {
+    emits('clickItem', event.target.innerText);
+  }
+};
+// const res = 
+// `<div class="chat-question-content">
+//   <div class="chat-question-desc">关于 SIG信息 你可以问我任何问题,也可以尝试点击以下问题开始：</div>
+//   <div class="chat-question-list">
+//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
+//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
+//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
+//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
+//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
+//   </div>
+// </div>`
 </script>
 <template>
   <div v-if="chatItem.type === 'human'" class="chat-item">
@@ -55,7 +72,7 @@ function clipTxt(text: string) {
   <div v-else class="chat-item">
     <AiPhoto class="photo"></AiPhoto>
     <div class="ai-content">
-      <div class="markdown-body" v-dompurify-html="useMarkdown().mkit(chatItem.content)"></div>
+      <div class="markdown-body" v-dompurify-html="useMarkdown().mkit(chatItem.content)" @click="clickItem($event)"></div>
       <div class="icon-group" v-if="chatItem?.response_metadata?.finish_reason === 'stop' || chatItem.type === 'tool'">
         <OIcon v-if="chatItem.type === 'ai'" class="icon" @click="clipTxt(chatItem.content)">
           <component :is="IconCopy"></component>
@@ -108,3 +125,23 @@ function clipTxt(text: string) {
   }
 }
 </style>
+<style lang="scss">
+.chat-question-list {
+  display: flex;
+  flex-flow: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+.chat-question-list-item {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 12px;
+  color: var(--o-color-text1);
+  cursor: pointer;
+  &:hover {
+    background-image: linear-gradient(90deg, rgba(125,50,234,.1) 0%, rgba(125,50,234,.05) 53%, rgba(125,50,234,.1) 100%);
+  }
+}
+</style>>

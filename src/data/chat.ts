@@ -7,22 +7,27 @@ import data from '@/assets/images/map-data.png';
 export const sceneChatList = [
     {
         title: '社区贡献',
+        value: '场景问答：社区贡献',
         img: contribution,
     },
     {
         title: 'PR详情、PR Review',
+        value: '场景问答：PR详情、PR Review',
         img: pr,
     },
     {
         title: 'SIG信息',
+        value: '场景问答：SIG信息',
         img: sig,
     },
     {
         title: '社区数据',
+        value: '场景问答：社区数据',
         img: data,
     },
     {
         title: '会议查询以及预定',
+        value: '场景问答：会议查询以及预定',
         img: meeting,
     },
 ]

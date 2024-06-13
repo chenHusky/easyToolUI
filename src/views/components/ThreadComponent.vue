@@ -118,7 +118,7 @@ defineExpose({
   <div class="qa-content" :class="{ 'no-state-content': !allState.length }">
     <div class="chat" ref="ChatRef" v-if="allState.length">
       <div v-for="(item) in allState" style="margin-bottom: 24px">
-        <ChatItemContent :chat-item="item"></ChatItemContent>
+        <ChatItemContent :chat-item="item" @click-item="sendReq($event as string)"></ChatItemContent>
       </div>
     </div>
     <div v-else class="chat" ref="ChatRef">
@@ -126,7 +126,7 @@ defineExpose({
         <h2>你好我是 openGauss小助手 很高兴为你服务</h2>
         <p class="desc"><span>场景问答： </span>可以基于以下场景进行提问，回复会更准确哦，点击查看问题样本</p>
         <div class="scene-list">
-          <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.title)">
+          <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.value)">
             <img :src="item.img">
             {{ item.title }}
           </div>
@@ -151,7 +151,7 @@ defineExpose({
   <div class="right" v-if="allState.length">
     <h3>场景问答</h3>
     <p>可以基于以下场景进行提问，回复会更准确哦，点击查看问题样本</p>
-    <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.title)">
+    <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.value)">
       <img :src="item.img">
       {{ item.title }}
     </div>

@@ -144,7 +144,7 @@ function filterMsgs(msg: Message[] | Record<string, any> | null | undefined) {
   return (Array.isArray(msg) ? msg : msg?.messages).reduce((pre, next) => {
     if (['ai', 'human'].includes(next.type) && !isDelete && next.content) {
       pre.push(next)
-    } else if (next.type === 'tool' && typeof(next.content) === 'string' && next.content.startWith('<div class="chat-question-content">')) {
+    } else if (next.type === 'tool' && typeof(next.content) === 'string' && next.content.startsWith('<div class="chat-question-content">')) {
       pre.push(next);
       isDelete = true;
     } else if (isDelete) {

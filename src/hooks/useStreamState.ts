@@ -158,8 +158,8 @@ export function mergeMessagesById(
   left: Message[] | Record<string, any> | null | undefined,
   right: Message[] | Record<string, any> | null | undefined,
 ): Message[] {
-  const leftMsgs = filterMsgs(left);
-  const rightMsgs =filterMsgs(right);
+  const leftMsgs = Array.isArray(left) ? left : left?.messages;
+  const rightMsgs = Array.isArray(right) ? right : right?.messages;
 
   const merged = (leftMsgs ?? [])?.slice();
   for (const msg of rightMsgs ?? []) {
@@ -170,5 +170,5 @@ export function mergeMessagesById(
       merged[foundIdx] = msg;
     }
   }
-  return merged;
+  return filterMsgs(merged);
 }

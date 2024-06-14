@@ -160,9 +160,12 @@ defineExpose({
 .no-state-content {
   margin-left: 108px;
   margin-right: 164px;
+  @media screen and (max-width: 1800px) {
+    margin-left: 32px;
+    margin-right: 88px;
+  }
 }
 .qa-content {
-  min-width: 1100px;
   flex-grow: 1;
   .chat {
     height: calc(100vh - 256px);
@@ -273,7 +276,6 @@ defineExpose({
     }
   }
   .have-state {
-    min-width: 900px;
     padding-left: 64px;
   }
 }

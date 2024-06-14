@@ -50,17 +50,13 @@ const clickItem = (event: any) => {
     emits('clickItem', event.target.innerText);
   }
 };
-// const res = 
-// `<div class="chat-question-content">
-//   <div class="chat-question-desc">关于 SIG信息 你可以问我任何问题,也可以尝试点击以下问题开始：</div>
-//   <div class="chat-question-list">
-//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
-//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
-//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
-//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
-//     <div class="chat-question-list-item">关于SIG信息你可以问我任何问题</div>
-//   </div>
-// </div>`
+const blink = '<span class="blinking">|</span>';
+const chat = computed(() => {
+  if (chatItem.value.type === 'ai' && chatItem.value.response_metadata?.finish_reason) {
+    return useMarkdown().mkit(chatItem.value.content + blink)
+  }
+  return useMarkdown().mkit(chatItem.value.content)
+});
 </script>
 <template>
   <div v-if="chatItem.type === 'human'" class="chat-item">
@@ -72,7 +68,7 @@ const clickItem = (event: any) => {
   <div v-else class="chat-item">
     <AiPhoto class="photo"></AiPhoto>
     <div class="ai-content">
-      <div class="markdown-body" v-dompurify-html="useMarkdown().mkit(chatItem.content)" @click="clickItem($event)"></div>
+      <div class="markdown-body" v-dompurify-html="chat" @click="clickItem($event)"></div>
       <div class="icon-group" v-if="chatItem?.response_metadata?.finish_reason === 'stop' || chatItem.type === 'tool'">
         <OIcon v-if="chatItem.type === 'ai'" class="icon" @click="clipTxt(chatItem.content)">
           <component :is="IconCopy"></component>
@@ -111,7 +107,6 @@ const clickItem = (event: any) => {
   background-color: #fff;
   padding: 32px 32px 24px 32px;
   border-radius: 0 12px 12px 12px;
-  min-width: 900px;
   width: 100%;
 }
 .icon-group {
@@ -133,15 +128,33 @@ const clickItem = (event: any) => {
   margin-top: 16px;
 }
 .chat-question-list-item {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  background-color: rgba(125,50,234,.08);
+  border-radius: 20px;
   font-size: 16px;
   line-height: 24px;
-  padding: 8px 12px;
+  padding: 8px 16px;
   color: var(--o-color-text1);
   cursor: pointer;
   &:hover {
-    background-image: linear-gradient(90deg, rgba(125,50,234,.1) 0%, rgba(125,50,234,.05) 53%, rgba(125,50,234,.1) 100%);
+    background-image: linear-gradient(270deg, #7d78ff, #7d32ea);
+    color: var(--o-color-text2);
   }
 }
-</style>>
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.blinking {
+  font-size: var(--o-font-size-h8);
+  font-weight: 800;
+  animation: blink 1s infinite;
+}
+</style>

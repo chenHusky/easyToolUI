@@ -16,5 +16,6 @@ header {
 }
 #app {
   background-image: url('@/assets/images/bg.png');
+  background-size: 100% 100%;
 }
 </style>

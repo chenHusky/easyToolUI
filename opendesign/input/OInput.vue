@@ -31,10 +31,10 @@ const attrs = useAttrs();
     line-height: var(--o-input-font-size);
 
     .el-input__wrapper {
-      border-radius: 4px;
+      border-radius: 8px;
       padding: 1px 15px;
       background-color: var(--o-input-color-bg);
-      box-shadow: 0 0 0 1px var(--o-input-border-color) inset;
+      box-shadow: 0 1px 16px 0 rgba(25, 25, 25, 0.05);
 
       .el-input__inner {
         height: var(--o-input-height);

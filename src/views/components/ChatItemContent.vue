@@ -52,7 +52,7 @@ const clickItem = (event: any) => {
 };
 const blink = '<span class="blinking">|</span>';
 const chat = computed(() => {
-  if (chatItem.value.type === 'ai' && chatItem.value.response_metadata?.finish_reason) {
+  if (chatItem.value.type === 'ai' && !chatItem.value.response_metadata?.finish_reason) {
     return useMarkdown().mkit(chatItem.value.content + blink)
   }
   return useMarkdown().mkit(chatItem.value.content)

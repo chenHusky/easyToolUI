@@ -1,13 +1,11 @@
 .el-message {
   justify-content: center;
   top: 104px !important;
-  height: 112px;
   border-radius: 0;
   background: var(--o-color-bg2) !important;
   box-shadow: var(--o-shadow-l4);
   font-size: var(--o-font-h4);
   --el-message-border-color: var(--o-color-bg2);
-  min-width: 480px;
   .el-message__icon {
     margin-right: var(--o-spacing-h6);
     font-size: var(--o-font-size-h5);

@@ -77,9 +77,13 @@ onMounted(() => {
 <template>
   <div class="gpt">
     <div class="left">
-      <h3>openGauss 小助手</h3>
-      <OButton class="btn" size="small" @click="newThread('新对话')" type="primary">新建对话</OButton>
-      <HistoryList @clickItem="selectThread" @deleteItem="deleteThread" :threads="threads"></HistoryList>
+      <el-scrollbar>
+        <div class="left-inner">
+          <h3>openGauss 小助手</h3>
+          <OButton class="btn" size="small" @click="newThread('新对话')" type="primary"><img src="@/assets/images/new-state.png" style="margin-right: 8px" /> 新建对话</OButton>
+          <HistoryList @clickItem="selectThread" @deleteItem="deleteThread" :threads="threads"></HistoryList>
+        </div>
+      </el-scrollbar>
     </div>
     <ThreadComponent ref="threadCom" @create-thread="initThreads('child')"></ThreadComponent>
   </div>
@@ -87,7 +91,6 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@use '@/shared/styles/mixin/common.scss' as *;
 .gpt {
   padding: 32px;
   display: flex;
@@ -104,9 +107,12 @@ onMounted(() => {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 1px 16px 0 rgba(25, 25, 25, 0.05);
-  padding: 24px;
-  overflow: auto;
-  @include scrollbar;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  .left-inner {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
   h3 {
     font-size: 20px;
     line-height: 28px;
@@ -120,6 +126,7 @@ onMounted(() => {
     height: 40px;
     background-image: linear-gradient(270deg, #7d78ff, #7d32ea);
     margin-bottom: 16px;
+    border-radius: 4px;
   }
 }
 </style>

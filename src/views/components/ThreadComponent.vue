@@ -11,6 +11,7 @@ const { threadId, assistantId } = useIdsStore();
 const searchValue = ref('');
 const disableInput = ref(false);
 const ChatRef = ref();
+const innerRef = ref();
 const { startStream, stream } = useStreamState();
 
 const allState = ref<Message[]>([])
@@ -33,10 +34,7 @@ const init = () => {
 
 const keepScrollBottom = () => {
   nextTick(() => {
-    ChatRef.value?.scrollTo({
-      top: ChatRef.value?.scrollHeight,
-      behavior: 'smooth',
-    });
+    ChatRef.value?.setScrollTop(innerRef.value!.clientHeight);
   });
 }
 
@@ -114,22 +112,28 @@ defineExpose({
 </script>
 <template>
   <div class="qa-content" :class="{ 'no-state-content': !allState.length }">
-    <div class="chat" ref="ChatRef" v-if="allState.length">
-      <div v-for="(item) in showAllState" style="margin-bottom: 24px">
-        <ChatItemContent :chat-item="item" @click-item="sendReq($event as string)"></ChatItemContent>
-      </div>
-    </div>
-    <div v-else class="chat" ref="ChatRef">
-      <div class="scene-chat">
-        <h2>你好我是 openGauss小助手 很高兴为你服务</h2>
-        <p class="desc"><span>场景问答： </span>可以基于以下场景进行提问，回复会更准确哦，点击查看问题样本</p>
-        <div class="scene-list">
-          <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.value)">
-            <img :src="item.img">
-            {{ item.title }}
+    <div class="chat" v-if="allState.length">
+      <el-scrollbar ref="ChatRef">
+        <div ref="innerRef">
+          <div v-for="(item) in showAllState" style="margin-bottom: 24px">
+            <ChatItemContent :chat-item="item" @click-item="sendReq($event as string)"></ChatItemContent>
           </div>
         </div>
-      </div>
+      </el-scrollbar>
+    </div>
+    <div v-else class="chat">
+      <el-scrollbar ref="ChatRef">
+        <div class="scene-chat">
+          <h2>你好我是 openGauss小助手 很高兴为你服务</h2>
+          <p class="desc"><span>场景问答： </span>可以基于以下场景进行提问，回复会更准确哦，点击查看问题样本</p>
+          <div class="scene-list">
+            <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.value)">
+              <img :src="item.img">
+              {{ item.title }}
+            </div>
+          </div>
+        </div>
+      </el-scrollbar>
     </div>
     <div class="operate">
       <div class="default-chats" v-if="!allState.length">
@@ -147,16 +151,19 @@ defineExpose({
     </div>
   </div>
   <div class="right" v-if="allState.length">
-    <h3>场景问答</h3>
-    <p>可以基于以下场景进行提问，回复会更准确哦，点击查看问题样本</p>
-    <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.value)">
-      <img :src="item.img">
-      {{ item.title }}
-    </div>
+    <el-scrollbar>
+      <div class="right-inner">
+        <h3>场景问答</h3>
+        <p>可以基于以下场景进行提问，回复会更准确哦，点击查看问题样本</p>
+        <div v-for="item in sceneChatList" class="scene-list-item" @click="sendReq(item.value)">
+          <img :src="item.img">
+          {{ item.title }}
+        </div>
+      </div>
+    </el-scrollbar>
   </div>
 </template>
 <style lang="scss" scoped>
-@use '@/shared/styles/mixin/common.scss' as *;
 .no-state-content {
   margin-left: 108px;
   margin-right: 164px;
@@ -173,9 +180,6 @@ defineExpose({
   flex-grow: 1;
   .chat {
     height: calc(100vh - 256px);
-    overflow: auto;
-    padding-right: 8px;
-    @include scrollbar;
   }
 
   .scene-chat {
@@ -188,6 +192,7 @@ defineExpose({
       line-height: 40px;
       color: var(--o-color-text1);
       margin-bottom: 24px;
+      font-weight: 600;
     }
     .desc {
       font-size: 20px;
@@ -199,6 +204,7 @@ defineExpose({
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
+        font-weight: 600;
       }
     }
     .scene-list {
@@ -231,7 +237,6 @@ defineExpose({
 
   .operate {
     height: 72px;
-    padding-right: 8px;
     .default-chats {
       display: flex;
       justify-content: end;
@@ -260,7 +265,6 @@ defineExpose({
     display: flex;
     width: 100%;
     column-gap: 24px;
-    padding-right: 8px;
     .o-input {
       --o-input-border-color: none;
       --o-input-disabled-border-color: rgba(125, 50, 234, 0.4);
@@ -270,7 +274,7 @@ defineExpose({
       width: 40px;
       height: 40px;
       border-radius: 4px;
-      font-size: 24px;
+      font-size: 19px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -292,10 +296,13 @@ defineExpose({
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 1px 16px 0 rgba(25, 25, 25, 0.05);
-  padding: 24px;
-  overflow: auto;
   flex-shrink: 0;
-  @include scrollbar;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  .right-inner {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
   h3 {
     font-size: 20px;
     line-height: 28px;

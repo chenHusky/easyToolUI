@@ -31,10 +31,22 @@ const stompIcon = computed(() => (stomp.value ? IconUnstomp : IconStomp));
 function clickLike() {
   like.value = !like.value;
   stomp.value = false;
+  if (like.value) {
+    ElMessage({
+      message: '推荐成功',
+      type: 'success',
+    });
+  }
 }
 function clickStomp() {
   stomp.value = !stomp.value;
   like.value = false;
+  if (stomp.value) {
+    ElMessage({
+      message: '不推荐成功',
+      type: 'success',
+    });
+  }
 }
 function clipTxt(text: string) {
   navigator.clipboard.writeText(text).then((data) => {

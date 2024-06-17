@@ -92,6 +92,9 @@ onMounted(() => {
   padding: 32px;
   display: flex;
   column-gap: 72px;
+  @media screen and (max-width: 1441px) {
+    column-gap: 24px;
+  }
 }
 
 .left {

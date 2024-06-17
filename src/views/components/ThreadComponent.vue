@@ -164,6 +164,10 @@ defineExpose({
     margin-left: 32px;
     margin-right: 88px;
   }
+  @media screen and (max-width: 1400px) {
+    margin-left: 0px;
+    margin-right: 56px;
+  }
 }
 .qa-content {
   flex-grow: 1;
@@ -241,6 +245,9 @@ defineExpose({
         color: var(--o-color-text1);
         line-height: 24px;
         cursor: pointer;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
         &:hover {
           color: var(--o-color-text2);
           background-image: linear-gradient(270deg, #7d78ff, #7d32ea);

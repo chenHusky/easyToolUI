@@ -187,6 +187,12 @@ defineExpose({
     background-color: #fff;
     padding: 32px;
     border-radius: 8px;
+    @media screen and (max-width: 1800px) {
+      margin-top: 48px;
+    }
+    @media screen and (max-width: 1400px) {
+      margin-top: 16px;
+    }
     h2 {
       font-size: 28px;
       line-height: 40px;
@@ -237,11 +243,13 @@ defineExpose({
 
   .operate {
     height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
     .default-chats {
       display: flex;
       justify-content: end;
       column-gap: 12px;
-      padding-top: 16px;
       .default-chat-item {
         background-color: #fff;
         border-radius: 4px;
@@ -250,9 +258,6 @@ defineExpose({
         color: var(--o-color-text1);
         line-height: 24px;
         cursor: pointer;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
         &:hover {
           color: var(--o-color-text2);
           background-image: linear-gradient(270deg, #7d78ff, #7d32ea);
